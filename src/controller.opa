@@ -15,7 +15,7 @@ Server.start(Server.http, [
   { register:
     [ { doctype: { html5 } },
       { js: [ ] },
-      { css: [ "/resources/css/style.css"] }
+      { css: [ "/resources/css/app.css", "/resources/css/base.css" ] }
     ]
   },
   { ~resources },
