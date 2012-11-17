@@ -14,7 +14,7 @@ resources = @static_resource_directory("resources")
 Server.start(Server.http, [
   { register:
     [ { doctype: { html5 } },
-      { js: [ ] },
+      { js: [ "/resources/js/app.js", "/resources/js/base.js" ] },
       { css: [ "/resources/css/app.css", "/resources/css/base.css" ] }
     ]
   },
