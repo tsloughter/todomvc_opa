@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [ -z $PORT ]; then
+    PORT=8080
+fi
+
+if [ -z $MONGOLAB_URI ]; then
+    DB=todomvc
+    DB_URL=localhost:27017
+else
+    DB=${MONGOLAB_URI##*/}
+    URL=${MONGOLAB_URI%/*}
+    DB_URL=${URL##*mongodb://}
+fi
+
+./todomvc.exe --http-port $PORT --db-remote:$DB $DB_URL

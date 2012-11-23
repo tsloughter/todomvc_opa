@@ -1,0 +1,15 @@
+{
+  "name": "todomvc",
+  "version": "0.0.1",
+  "dependencies": {
+      "mongodb" : "*",
+      "formidable" : "*",
+      "nodemailer" : "*",
+      "simplesmtp" : "*",
+      "imap" : "*"
+  },
+  "engines": {
+    "node": "0.8.7",
+    "npm": "1.1.x"
+  }
+}

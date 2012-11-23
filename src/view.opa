@@ -123,7 +123,7 @@ module View {
 	    <!-- This footer should hidden by default and shown when there are todos -->
 	    <footer id="footer">
             			<!-- This should be `0 items left` by default -->
-            			<span id="todo-count"><span id=#number_left class="number bold">1</span> item left</span>
+            			<span id="todo-count"><span id=#number_left class="number bold">0</span> item left</span>
             			<!-- Remove this if you don't implement routing 
             			<ul id="filters">
             				<li>

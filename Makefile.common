@@ -23,7 +23,7 @@ else
 endif
 
 # Hack to bypass the lack of "make -p" on Windows:
-_ = $(shell mkdir _build 2>/dev/null)   
+_ = $(shell mkdir _build 2>/dev/null)
 
 ########################################
 # MAIN RULE
@@ -66,7 +66,6 @@ pack.depends :
 # CLEANING
 clean ::
 	@$(PCK:%.opx=make -C $(PCKDIR)/% clean &&) $(PLUGIN:%.opp=make -C $(PLUGINDIR)/% clean &&) echo "### Cleaning $(BUILDDIR)";
+	$(RM) access.log error.log todomvc_depends/ _tracks/ 2>/dev/null
 	$(RM) $(BUILDDIR) 2>/dev/null
-	$(RMFILE) $(EXE) 2>/dev/null 
-	
-
+	$(RMFILE) $(EXE) 2>/dev/null
