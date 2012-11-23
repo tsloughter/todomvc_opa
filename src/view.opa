@@ -57,9 +57,10 @@ module View {
     }
 
     function make_editable(string id, string title) {
-        line = <input id={id^"_input"} class="xlarge todo_content" onnewline={function(_){update_todo(id, Dom.get_value(#{id^"_input"}))}} title={ title } />
-        Dom.show(#{id^"_destroy"});
-        _ = Dom.put_replace(#{id^"_todo"}, Dom.of_xhtml(line));
+        //line = <input id={id^"_input"} onnewline={function(_){update_todo(id, Dom.get_value(#{id^"_input"}))}} title={ title } />
+        //Dom.show(#{id^"_destroy"});
+        //Dom.add_class(#{id}, "completed")
+        //_ = Dom.put_replace(#{id^"_todo"}, Dom.of_xhtml(line));
         update_counts()
     }
 
@@ -72,18 +73,19 @@ module View {
     function add_todo_to_page(string id, string title, bool is_completed) {
         completed = if (is_completed) "completed" else ""
         checkbox = if (is_completed) {
-                <input checked="yes" class="toggle" type="checkbox" onclick={function(_){make_completed(id)}}/>
-          }else{
+            <input checked="yes" class="toggle" type="checkbox" onclick={function(_){make_completed(id)}}/>
+        }else{
             <input class="toggle" type="checkbox" onclick={function(_){make_completed(id)}}/>
-          }
+        }
         line =
           <li>
             <div class="todo {completed}" id={ id }>
-              <div class="display">
+              <div class="view">
                 {checkbox}
-                <label id={id^"_todo"} onclick={function(_){ if (is_completed) { }else{ make_editable(id, title) }}}>{ title }</label>
+                <label id={id^"_todo"} onclick={function(_){ if (not(is_completed)) { make_editable(id, title) }}}>{ title }</label>
                 <button id={id^"_destroy"} class="destroy" onclick={function(_){remove_item(id)}}></button>
              </div>
+             <input class="edit" value="{ title }">
            </div>
           </li>
         Dom.transform([#todo_list =+ line]);
@@ -98,10 +100,12 @@ module View {
     }
 
     function add_todo(string x) {
-        
-        id = Dom.fresh_id();
-        db_add_todo(id, x);
-        add_todo_to_page(id, x, false)
+        title = String.trim(x)
+        if (not(String.is_empty(title))) {
+            id = Dom.fresh_id();
+            db_add_todo(id, title);
+            add_todo_to_page(id, title, false)
+        }
     }
 
     function page_template(title) {
