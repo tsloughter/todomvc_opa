@@ -45,9 +45,13 @@ module View {
     }    
 
     function update_todo(string id) {
-        title = Dom.get_value(#{id^"_input"})
-        db_add_todo(id, title)
-        update_todo_on_page(id, title)
+        title = String.trim(Dom.get_value(#{id^"_input"}))
+        if (String.is_empty(title)) {
+            remove_item(id)
+        } else {
+            db_add_todo(id, title)
+            update_todo_on_page(id, title)
+        }
     }
 
     function update_todo_on_page(string id, string title) {
@@ -83,7 +87,7 @@ module View {
                 <label id={id^"_todo"} onclick={function(_){ if (not(is_completed)) { make_editable(id) }}}>{ title }</label>
                 <button id={id^"_destroy"} class="destroy" onclick={function(_){remove_item(id)}}></button>
              </div>
-             <input id={id^"_input"} class="edit" onnewline={function(_){update_todo(id)}} value={ title }>
+             <input id={id^"_input"} class="edit" onfocusout={function(_){update_todo(id)}} onnewline={function(_){update_todo(id)}} value={ title }>
            </div>
           </li>
         Dom.transform([#todo_list =+ line]);
