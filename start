@@ -13,6 +13,4 @@ else
     DB_URL=${URL##*mongodb://}
 fi
 
-
-
 ./todomvc.exe --http-port $PORT --db-remote:$DB $DB_URL

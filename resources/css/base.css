@@ -250,7 +250,7 @@ label[for='toggle-all'] {
 	transition: color 0.4s;
 }
 
-#todo_list li div.done div label {
+#todo_list li div.completed div label {
 	color: #a9a9a9;
 	text-decoration: line-through;
 }

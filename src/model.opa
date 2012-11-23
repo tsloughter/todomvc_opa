@@ -1,15 +1,13 @@
 
 type Todo.t = {
     string id,
-    string useref,
-    string value,
-    bool done,
-    string created_at
+    string title,
+    bool completed
 }
 
 database todomvc {    
     Todo.t /todos[{id}]
-    /todos[_]/done = false
+    /todos[_]/completed = false
 }
 
 module Model {
