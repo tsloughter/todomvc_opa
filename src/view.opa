@@ -39,6 +39,11 @@ module View {
                   Dom.select_class("done"))
     }    
 
+    @async function mark_all_done() {
+        Dom.iter((function(x){make_done(Dom.get_id(x))}),
+                  Dom.select_class("todo"))
+    }    
+
     function update_todo(string id, string value) {
         db_add_todo(id, value);
         update_todo_on_page(id, value);
@@ -67,7 +72,7 @@ module View {
     function add_todo_to_page(string id, string value, bool is_done) {
         done = if (is_done) "done" else ""
         checkbox = if (is_done) {
-            <input checked="yes" class="toggle" type="checkbox" onclick={function(_){make_done(id)}}/>
+                <input checked="yes" class="toggle" type="checkbox" onclick={function(_){make_done(id)}}/>
           }else{
             <input class="toggle" type="checkbox" onclick={function(_){make_done(id)}}/>
           }
@@ -110,7 +115,7 @@ module View {
             		<!-- This section should be hidden by default and shown when there are todos -->
             		<section id="main">
             			<input id="toggle-all" type="checkbox">
-            			<label for="toggle-all">Mark all as complete</label>
+            			<label for="toggle-all" onclick={function(_){mark_all_done()}}>Mark all as complete</label>
                                   <div id=#todos>
                                     <ul id=#todo_list onready={function(_){add_todos()}} class="unstyled"></ul>
                                   </div>
@@ -118,8 +123,8 @@ module View {
 	    <!-- This footer should hidden by default and shown when there are todos -->
 	    <footer id="footer">
             			<!-- This should be `0 items left` by default -->
-            			<span id="todo-count"><strong>1</strong> item left</span>
-            			<!-- Remove this if you don't implement routing -->
+            			<span id="todo-count"><span id=#number_left class="number bold">1</span> item left</span>
+            			<!-- Remove this if you don't implement routing 
             			<ul id="filters">
             				<li>
             					<a class="selected" href="#/">All</a>
@@ -130,8 +135,8 @@ module View {
             				<li>
             					<a href="#/completed">Completed</a>
             				</li>
-            			</ul>
-            			<button id="clear-completed">Clear completed (1)</button>
+            			</ul> -->
+            			<button id="clear-completed" onclick={function(_){remove_all_done()}}>Clear completed (<span id=#number_done class="number-done">0</span>)</button>
             		</footer>
 	    </section>
 
