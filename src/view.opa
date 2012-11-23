@@ -44,23 +44,21 @@ module View {
                   Dom.select_class("todo"))
     }    
 
-    function update_todo(string id, string title) {
-        db_add_todo(id, title);
-        update_todo_on_page(id, title);
-        Dom.void_style(#{id^"_destroy"});
+    function update_todo(string id) {
+        title = Dom.get_value(#{id^"_input"})
+        db_add_todo(id, title)
+        update_todo_on_page(id, title)
     }
 
     function update_todo_on_page(string id, string title) {
-        line = <label id={id^"_todo"} class="todo_content" onclick={function(_){make_editable(id, title)}}>{ title }</label>
-        _ = Dom.put_replace(#{id^"_input"}, Dom.of_xhtml(line));
+        Dom.set_text(#{id^"_todo"}, title)
+        Dom.remove_class(#{id^"_li"}, "editing")
         void
     }
 
-    function make_editable(string id, string title) {
-        //line = <input id={id^"_input"} onnewline={function(_){update_todo(id, Dom.get_value(#{id^"_input"}))}} title={ title } />
-        //Dom.show(#{id^"_destroy"});
-        //Dom.add_class(#{id}, "completed")
-        //_ = Dom.put_replace(#{id^"_todo"}, Dom.of_xhtml(line));
+    function make_editable(string id) {
+        Dom.add_class(#{id^"_li"}, "editing")
+        Dom.give_focus(#{id^"_input"})
         update_counts()
     }
 
@@ -78,14 +76,14 @@ module View {
             <input class="toggle" type="checkbox" onclick={function(_){make_completed(id)}}/>
         }
         line =
-          <li>
-            <div class="todo {completed}" id={ id }>
+          <li id={id^"_li"}>
+            <div class="todo {completed}" id={id}>
               <div class="view">
                 {checkbox}
-                <label id={id^"_todo"} onclick={function(_){ if (not(is_completed)) { make_editable(id, title) }}}>{ title }</label>
+                <label id={id^"_todo"} onclick={function(_){ if (not(is_completed)) { make_editable(id) }}}>{ title }</label>
                 <button id={id^"_destroy"} class="destroy" onclick={function(_){remove_item(id)}}></button>
              </div>
-             <input class="edit" value="{ title }">
+             <input id={id^"_input"} class="edit" onnewline={function(_){update_todo(id)}} value={ title }>
            </div>
           </li>
         Dom.transform([#todo_list =+ line]);
